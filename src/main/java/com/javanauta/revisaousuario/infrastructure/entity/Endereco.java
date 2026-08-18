@@ -23,8 +23,8 @@ public class Endereco {
     private String complemento;
     @Column(name = "cidade", length = 100)
     private String cidade;
-    @Column(name = "estado", length = 100)
+    @Column(name = "estado", length = 2)
     private String estado;
-    @Column(name = "cep", length = 2)
+    @Column(name = "cep", length = 100)
     private String cep;
 }
