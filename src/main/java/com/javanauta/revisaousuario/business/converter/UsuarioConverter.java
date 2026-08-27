@@ -18,8 +18,10 @@ public class UsuarioConverter {
                 .nome(dto.getNome())
                 .email(dto.getEmail())
                 .senha(dto.getSenha())
-                .enderecos(paraListaEnderecoEntity(dto.getEnderecos()))
-                .telefones(paraListaTelefoneEntity(dto.getTelefones()))
+                .enderecos(dto.getEnderecos() != null ?
+                        paraListaEnderecoEntity(dto.getEnderecos()) : null)
+                .telefones(dto.getTelefones() != null ?
+                        paraListaTelefoneEntity(dto.getTelefones()) : null)
                 .build();
 
     }
@@ -55,8 +57,10 @@ public class UsuarioConverter {
                 .nome(entity.getNome())
                 .email(entity.getEmail())
                 .senha(entity.getSenha())
-                .enderecos(paraListaEnderecoDTO(entity.getEnderecos()))
-                .telefones(paraListaTelefoneDTO(entity.getTelefones()))
+                .enderecos(entity.getEnderecos() != null ?
+                        paraListaEnderecoDTO(entity.getEnderecos()) : null)
+                .telefones(entity.getTelefones() != null ?
+                        paraListaTelefoneDTO(entity.getTelefones()) : null)
                 .build();
 
     }
@@ -104,7 +108,7 @@ public class UsuarioConverter {
         return Endereco.builder()
                 .id(entity.getId())
                 .numero(dto.getNumero() != null ? dto.getNumero() : entity.getNumero())
-                .rua(dto.getRua()!= null ? dto.getRua() : entity.getRua())
+                .rua(dto.getRua() != null ? dto.getRua() : entity.getRua())
                 .complemento(dto.getComplemento() != null ? dto.getComplemento() : entity.getComplemento())
                 .cidade(dto.getCidade() != null ? dto.getCidade() : entity.getCidade())
                 .estado(dto.getEstado() != null ? dto.getEstado() : entity.getEstado())
