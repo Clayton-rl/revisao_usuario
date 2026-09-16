@@ -5,20 +5,12 @@ import com.javanauta.revisaousuario.business.ViaCepService;
 import com.javanauta.revisaousuario.business.dtos.EnderecoDTO;
 import com.javanauta.revisaousuario.business.dtos.TelefoneDTO;
 import com.javanauta.revisaousuario.business.dtos.UsuarioDTO;
-import com.javanauta.revisaousuario.infrastructure.clients.ViaCepClient;
 import com.javanauta.revisaousuario.infrastructure.clients.ViaCepDTO;
-import com.javanauta.revisaousuario.infrastructure.entity.Usuario;
-import com.javanauta.revisaousuario.infrastructure.security.JwtUtil;
 import com.javanauta.revisaousuario.infrastructure.security.SecurityConfig;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
     private final ViaCepService viaCepService;
 
     @PostMapping
@@ -39,11 +29,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UsuarioDTO dto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha())
-        );
-        return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    public ResponseEntity<String> login(@RequestBody UsuarioDTO dto) {
+        return ResponseEntity.ok(usuarioService.autenticaUsuario(dto));
     }
 
     @GetMapping
